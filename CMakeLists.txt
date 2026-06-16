@@ -25,6 +25,8 @@ add_library(lfsr
 target_include_directories(lfsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_compile_options(lfsr PRIVATE -Wall -Wextra -Wpedantic)
 
+target_link_libraries(lfsr PRIVATE spdlog::spdlog)
+
 add_executable(prng_app src/main.cpp)
 target_link_libraries(prng_app PRIVATE lfsr spdlog::spdlog)
 
