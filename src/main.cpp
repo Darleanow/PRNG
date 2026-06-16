@@ -1,9 +1,27 @@
+/**
+ * @file main.cpp
+ * @brief Entry point for the PRNG application.
+ * 
+ * Handles command-line arguments parsing using the Grendizer library and 
+ * runs the requested sub-programs (like the LFSR proof-of-concept).
+ */
+
 #include <algorithm>
 
 #include <grendizer/grendizer.hpp>
 #include <prng/lfsr/lfsr.hpp>
 #include <spdlog/spdlog.h>
 
+/**
+ * @brief Main execution function.
+ * 
+ * Configures the logger based on command line arguments and branches
+ * execution depending on flags passed by the user.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return Exit status code (0 on success, non-zero on failure).
+ */
 int main(int argc, char **argv) {
   using namespace spdlog::level;
 

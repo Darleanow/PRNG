@@ -1,3 +1,8 @@
+/**
+ * @file lfsr.cpp
+ * @brief Implementation of the LFSR logic and the algebraic reconstruction solver.
+ */
+
 #include "prng/lfsr/lfsr.hpp"
 #include <bit>
 #include <spdlog/spdlog.h>

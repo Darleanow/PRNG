@@ -34,7 +34,9 @@ jobs:
           curl -fsSL "$BASE/doxygen-awesome-sidebar-only.css" -o docs/doxygen-awesome-sidebar-only.css
 
       - name: Generate documentation
-        run: doxygen docs/Doxyfile
+        run: |
+          mkdir -p build/docs
+          doxygen docs/Doxyfile
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
