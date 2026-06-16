@@ -3,9 +3,9 @@
 #include <cstdint>
 
 struct LFSR {
-  unsigned int val : 4;
+  uint32_t val;
 };
 
-constexpr uint32_t TAPS = (1u << 3) | (1u << 2);
-
+inline constexpr uint32_t TAPS =
+    (1u << 31) | (1u << 30) | (1u << 29) | (1u << 9);
 unsigned step(LFSR &lfsr);
