@@ -1,5 +1,5 @@
 /**
- * @file grendizer.h
+ * @file grendizer.hpp
  * @brief Single-header CLI parsing library for Alcor2 userland.
  *
  * Grendizer is a zero-dependency, freestanding-compatible C library that
