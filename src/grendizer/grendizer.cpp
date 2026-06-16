@@ -1,5 +1,5 @@
 /**
- * @file grendizer.c
+ * @file grendizer.cpp
  * @brief Grendizer CLI parsing library — implementation.
  */
 

@@ -1,0 +1,53 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Doxygen docs
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Fetch doxygen-awesome-css
+        run: |
+          DA_VER=v2.3.4
+          BASE="https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/${DA_VER}"
+          curl -fsSL "$BASE/doxygen-awesome.css"              -o docs/doxygen-awesome.css
+          curl -fsSL "$BASE/doxygen-awesome-sidebar-only.css" -o docs/doxygen-awesome-sidebar-only.css
+
+      - name: Generate documentation
+        run: doxygen docs/Doxyfile
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/docs/html
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

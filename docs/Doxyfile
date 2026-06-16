@@ -1,0 +1,42 @@
+# Doxygen configuration for the PRNG project.
+# Tags left unset fall back to Doxygen defaults.
+# Run from the repository root: `doxygen docs/Doxyfile`.
+
+PROJECT_NAME           = "PRNG"
+PROJECT_BRIEF          = "Algebraic reconstruction attacks on weak PRNGs over GF(2)"
+PROJECT_NUMBER         =
+
+OUTPUT_DIRECTORY       = build/docs
+HTML_OUTPUT            = html
+CREATE_SUBDIRS         = NO
+
+INPUT                  = readme.md include src
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.cpp *.h *.c *.md
+USE_MDFILE_AS_MAINPAGE = readme.md
+
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+EXTRACT_PRIV_VIRTUAL   = YES
+JAVADOC_AUTOBRIEF      = YES
+BUILTIN_STL_SUPPORT    = YES
+MARKDOWN_SUPPORT       = YES
+SORT_MEMBER_DOCS       = NO
+
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = YES
+
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_COLORSTYLE        = LIGHT
+HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome.css \
+                         docs/doxygen-awesome-sidebar-only.css
+
+HAVE_DOT               = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES

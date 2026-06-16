@@ -34,3 +34,13 @@ target_compile_options(prng_app PRIVATE
     -Wall -Wextra -Wpedantic
     $<$<CONFIG:Release>:-O3 -march=native>
 )
+
+find_package(Doxygen OPTIONAL_COMPONENTS dot)
+if(DOXYGEN_FOUND)
+    add_custom_target(docs
+        COMMAND Doxygen::doxygen ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM
+    )
+endif()
