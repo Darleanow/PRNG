@@ -18,17 +18,18 @@ set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(SPDLOG_COMPILED_LIB ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(spdlog)
 
-add_library(lfsr
+add_library(prng_lib
     src/lfsr/lfsr.cpp
+    src/mt/mt.cpp
     src/grendizer/grendizer.cpp
 )
-target_include_directories(lfsr PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_compile_options(lfsr PRIVATE -Wall -Wextra -Wpedantic)
+target_include_directories(prng_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_compile_options(prng_lib PRIVATE -Wall -Wextra -Wpedantic)
 
-target_link_libraries(lfsr PRIVATE spdlog::spdlog)
+target_link_libraries(prng_lib PRIVATE spdlog::spdlog)
 
 add_executable(prng_app src/main.cpp)
-target_link_libraries(prng_app PRIVATE lfsr spdlog::spdlog)
+target_link_libraries(prng_app PRIVATE prng_lib spdlog::spdlog)
 
 target_compile_options(prng_app PRIVATE
     -Wall -Wextra -Wpedantic
