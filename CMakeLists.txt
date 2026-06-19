@@ -21,6 +21,7 @@ FetchContent_MakeAvailable(spdlog)
 add_library(prng_lib
     src/lfsr/lfsr.cpp
     src/mt/mt.cpp
+    src/session/session.cpp
     src/grendizer/grendizer.cpp
 )
 target_include_directories(prng_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

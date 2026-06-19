@@ -14,19 +14,22 @@
 #include <grendizer/grendizer.hpp>
 #include <prng/lfsr/lfsr.hpp>
 #include <prng/mt/mt.hpp>
+#include <prng/session/session.hpp>
 #include <spdlog/spdlog.h>
 
 int main(int argc, char **argv) {
   using namespace spdlog::level;
 
-  int verbose   = 0;
-  int lfsr_flag = 0;
-  int mt_flag   = 0;
+  int verbose      = 0;
+  int lfsr_flag    = 0;
+  int mt_flag      = 0;
+  int session_flag = 0;
 
   gr_opt opts[] = {
-    GR_COUNT('v', "verbose", &verbose,   "Verbosity level (-v info, -vv debug, -vvv trace)"),
-    GR_FLAG('l',  "lfsr",    &lfsr_flag, "Run LFSR algebraic reconstruction PoC"),
-    GR_FLAG('m',  "mt",      &mt_flag,   "Run MT19937 state-cloning PoC"),
+    GR_COUNT('v', "verbose", &verbose,      "Verbosity level (-v info, -vv debug, -vvv trace)"),
+    GR_FLAG('l',  "lfsr",    &lfsr_flag,    "Run LFSR algebraic reconstruction PoC"),
+    GR_FLAG('m',  "mt",      &mt_flag,      "Run MT19937 state-cloning PoC"),
+    GR_FLAG('s',  "session", &session_flag, "Run session hijacking PoC"),
     GR_END
   };
   gr_spec spec = {"prng_app", "prng_app [options]", opts, NULL};
@@ -41,8 +44,9 @@ int main(int argc, char **argv) {
   constexpr level_enum levels[] = {warn, info, debug, trace};
   spdlog::set_level(levels[std::clamp(verbose, 0, 3)]);
 
-  if (lfsr_flag) return solver::run_lfsr_poc();
-  if (mt_flag)   return mt_solver::run_mt_poc();
+  if (lfsr_flag)    return solver::run_lfsr_poc();
+  if (mt_flag)      return mt_solver::run_mt_poc();
+  if (session_flag) return session_attack::run_session_poc();
 
   return 0;
 }
