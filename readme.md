@@ -1,5 +1,45 @@
 # PRNG
 
+## Prérequis
+
+- CMake >= 3.20
+- GCC >= 13 ou Clang >= 16 (C++23 requis pour `std::format` et `std::popcount`)
+- Git (pour que CMake télécharge spdlog automatiquement au premier build)
+
+## Build
+
+```sh
+git clone https://github.com/Darleanow/PRNG && cd PRNG
+cmake -S . -B build
+cmake --build build --parallel
+```
+
+Le binaire est disponible dans `build/prng_app`.
+
+## Lancer les PoC
+
+```sh
+./build/prng_app --lfsr    -v    # Partie 1 : reconstruction algébrique LFSR
+./build/prng_app --mt      -v    # Partie 2 : clonage MT19937
+./build/prng_app --session -v    # Partie 3 : usurpation de session
+```
+
+Ajouter `-vv` ou `-vvv` pour plus de détails à l'exécution.
+
+## Documentation
+
+La documentation API générée par Doxygen est disponible sur GitHub Pages :
+https://darleanow.github.io/PRNG
+
+Pour la générer localement :
+
+```sh
+cmake --build build --target docs
+# Ouvrir build/docs/html/index.html
+```
+
+---
+
 ## LFSR - Attaque par reconstruction algébrique sur GF(2)
 
 Un LFSR Fibonacci 32 bits produit un bit par cycle en XORant un sous-ensemble fixe de positions du registre (les *taps*) et en décalant à droite. La suite de sortie obéit à une récurrence linéaire sur GF(2) : chaque bit est le XOR des 32 bits qui le précèdent, pondéré par le masque de taps.
@@ -15,15 +55,6 @@ Une fois les taps connus, les mêmes 64 bits permettent de retrouver la graine. 
 ### Prédire les bits futurs
 
 Avec les taps et la graine, on clone le LFSR, on avance jusqu'à la fin de la fenêtre observée et on génère autant de bits futurs que voulu, identiques au flux original. L'attaque est totale : le générateur n'offre aucune sécurité dès qu'une fenêtre de 64 bits de sortie est connue.
-
-### Lancer le PoC
-
-```sh
-cmake -S . -B build && cmake --build build
-./build/prng_app --lfsr -v       # attaque complète, vérifie les 3 étapes
-./build/prng_app --lfsr -vv      # avec sortie debug
-./build/prng_app --lfsr -vvv     # avec trace par équation
-```
 
 ---
 
@@ -59,22 +90,11 @@ En appliquant les quatre inversions dans l'ordre inverse, on récupère le mot b
 
 Observer 624 sorties consécutives suffit : chaque sortie est exactement le tempering d'un mot d'état. Inverser le tempering sur chacune reconstruit l'état complet après le dernier twist. Le générateur est alors entièrement cloné.
 
-### Lancer le PoC
-
-```sh
-./build/prng_app --mt -v     # clonage complet, 100 prédictions vérifiées
-./build/prng_app --mt -vv    # avec détail des observations et prédictions
-```
-
 ---
 
 ## Scénario réel - Usurpation de session
 
 Un serveur génère des tokens de session via MT19937 seedé à `time()`. Un attaquant qui observe 624 tokens consécutifs en tant que client légitime peut reconstruire l'état interne complet et prédire le token de n'importe quel utilisateur suivant avant même qu'il se connecte.
-
-```sh
-./build/prng_app --session -v   # démonstration complète de l'usurpation
-```
 
 ---
 

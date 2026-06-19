@@ -21,6 +21,7 @@ EXTRACT_PRIV_VIRTUAL   = YES
 JAVADOC_AUTOBRIEF      = YES
 BUILTIN_STL_SUPPORT    = YES
 MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
 SORT_MEMBER_DOCS       = NO
 
 QUIET                  = YES
@@ -34,9 +35,15 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 HTML_COLORSTYLE        = LIGHT
+HTML_COLORSTYLE_HUE    = 209
+HTML_COLORSTYLE_SAT    = 255
+HTML_COLORSTYLE_GAMMA  = 113
 HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome.css \
                          docs/doxygen-awesome-sidebar-only.css
 
 HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+DOT_GRAPH_MAX_NODES    = 50
